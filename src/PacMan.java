@@ -264,8 +264,17 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                 if(collision(wall, ghost)){
                     ghost.x -= ghost.velocityX;
                     ghost.y -= ghost.velocityY;
-                    char newDirection = directions[random.nextInt(4)];
-                    ghost.updateDirection((newDirection));
+                    // Add chase logic here for red ghost, random for others
+                    if(ghost.image == redGhostImage){
+                        if(Math.abs(pacman.x - ghost.x) > Math.abs(pacman.y - ghost.y)){
+                            ghost.updateDirection(pacman.x > ghost.x ? 'R' : 'L');
+                        } else {
+                            ghost.updateDirection(pacman.y > ghost.y ? 'D' : 'U');
+                        }
+                    } else {
+                        char newDirection = directions[random.nextInt(4)];
+                        ghost.updateDirection(newDirection);
+                    }
                 }
             }
         }
