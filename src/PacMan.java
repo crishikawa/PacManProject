@@ -266,10 +266,19 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                     ghost.y -= ghost.velocityY;
                     // Add chase logic here for red ghost, random for others
                     if(ghost.image == redGhostImage){
+                        char chaseDirection;
                         if(Math.abs(pacman.x - ghost.x) > Math.abs(pacman.y - ghost.y)){
-                            ghost.updateDirection(pacman.x > ghost.x ? 'R' : 'L');
+                            chaseDirection = pacman.x > ghost.x ? 'R' : 'L';
                         } else {
-                            ghost.updateDirection(pacman.y > ghost.y ? 'D' : 'U');
+                            chaseDirection = pacman.y > ghost.y ? 'D' : 'U';
+                        }
+                        ghost.updateDirection(chaseDirection);
+                        // If still colliding with a wall, fall back to random
+                        for(Block w : walls){
+                            if(collision(ghost, w)){
+                                ghost.updateDirection(directions[random.nextInt(4)]);
+                                break;
+                            }
                         }
                     } else {
                         char newDirection = directions[random.nextInt(4)];
@@ -278,6 +287,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                 }
             }
         }
+
         Block foodEaten = null;
         for(Block food : foods){
             if(collision(pacman, food)){
