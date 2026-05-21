@@ -266,24 +266,46 @@ public class PacMan extends JPanel implements ActionListener, KeyListener{
                     ghost.y -= ghost.velocityY;
                     // Add chase logic here for red ghost, random for others
                     if(ghost.image == redGhostImage){
-                        char chaseDirection;
-                        if(Math.abs(pacman.x - ghost.x) > Math.abs(pacman.y - ghost.y)){
-                            chaseDirection = pacman.x > ghost.x ? 'R' : 'L';
-                        } else {
-                            chaseDirection = pacman.y > ghost.y ? 'D' : 'U';
-                        }
-                        ghost.updateDirection(chaseDirection);
-                        // If still colliding with a wall, fall back to random
+                    // Find chase direction
+                    char chaseDir;
+                    if(Math.abs(pacman.x - ghost.x) > Math.abs(pacman.y - ghost.y)){
+                        chaseDir = pacman.x > ghost.x ? 'R' : 'L';
+                    } else {
+                        chaseDir = pacman.y > ghost.y ? 'D' : 'U';
+                    }
+
+                    // Find all valid directions by testing each one
+                    char[] allDirs = {'U', 'D', 'L', 'R'};
+                    char bestDir = directions[random.nextInt(4)];
+                    for(char dir : allDirs){
+                        // Calculate where ghost would move
+                        int testX = ghost.x;
+                        int testY = ghost.y;
+                        if(dir == 'U') testY -= tileSize/4;
+                        else if(dir == 'D') testY += tileSize/4;
+                        else if(dir == 'L') testX -= tileSize/4;
+                        else if(dir == 'R') testX += tileSize/4;
+
+                        // Check if that position is clear
+                        Block testBlock = new Block(null, testX, testY, ghost.width, ghost.height);
+                        boolean blocked = false;
                         for(Block w : walls){
-                            if(collision(ghost, w)){
-                                ghost.updateDirection(directions[random.nextInt(4)]);
+                            if(collision(testBlock, w)){
+                                blocked = true;
                                 break;
                             }
                         }
-                    } else {
-                        char newDirection = directions[random.nextInt(4)];
-                        ghost.updateDirection(newDirection);
+                        // Prefer chase direction, otherwise take any valid direction
+                        if(!blocked){
+                            bestDir = dir;
+                            if(dir == chaseDir) break;
+                        }
                     }
+                    ghost.updateDirection(bestDir);
+                } else {
+                    char newDirection = directions[random.nextInt(4)];
+                    ghost.updateDirection(newDirection);
+                }
                 }
             }
         }
