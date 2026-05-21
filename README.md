@@ -15,3 +15,6 @@ collision detection, score tracking, lives system, and high score.
 - High score persistence
 - Screen wrap-around tunnels
 - Directional PacMan sprites
+
+## Screenshot
+![PacMan Gameplay](src/GameSS.png)
