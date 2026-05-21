@@ -1,18 +1,17 @@
-## Getting Started
+# PacMan in Java
+Classic PacMan game built in Java using Swing. Features 4 ghosts, 
+collision detection, score tracking, lives system, and high score.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## How to Run
+1. Clone the repo
+2. Open in VS Code with Java extension
+3. Run App.java
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Features
+- 4 ghosts with randomized movement
+- Wall collision detection
+- Score tracking (+10 per food)
+- 3 lives system
+- High score persistence
+- Screen wrap-around tunnels
+- Directional PacMan sprites
